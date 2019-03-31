@@ -18,6 +18,12 @@ Just checkout and open KATAMINO-SOLVER-main/index.html on your browser.
 * KATAMINO-SOLVER-main
     * main program
 
+## Dependencies
+
+* jQuery v3
+* bootstrap v4
+* jQuery-UI v1
+
 ---
 
 (日本語)
@@ -41,3 +47,9 @@ KATAMINOはGigamic社から発売されているパズルゲームです。12個
     * index.html の実行結果をKATAMINO-SOLVER-main/js/katamino-arr.js にコピーしてください
 * KATAMINO-SOLVER-main
     * メインのプログラム
+
+## 依存ライブラリ
+
+* jQuery v3
+* bootstrap v4
+* jQuery-UI v1
