@@ -1,8 +1,8 @@
-const KATAMINO_ARRAY = KATAMINO_ORG_ARRAY.map((piece, pieceId) => createKataminoInfo(piece, pieceId))
+const KATAMINO_ARRAY = KATAMINO_ORG_ARRAY.map((piece, pieceId) => createKataminoSpinList(piece, pieceId))
 
 document.write("const KATAMINO_ARR = " + JSON.stringify(KATAMINO_ARRAY))
 
-function createKataminoInfo(piece, pieceId) {
+function createKataminoSpinList(piece, pieceId) {
   let kataminoSpinArray = []
   kataminoSpinArray[0] = copyArrayOfArray(piece)
   kataminoSpinArray[7] = transpose(copyArrayOfArray(kataminoSpinArray[0]))
@@ -15,37 +15,27 @@ function createKataminoInfo(piece, pieceId) {
 
   const uniqSpinArr = uniqKatamino(kataminoSpinArray)
 
-  return uniqSpinArr.map((uniqSpin, spinId) => matricsToList(uniqSpin, pieceId, spinId))
-
+  return uniqSpinArr.map((uniqSpin, spinId) => matrixToList(uniqSpin))
 }
 
-function matricsToList(katamino, pieceId, spinId) {
-  let list = []
+function matrixToList(katamino) {
+  let places = []
   katamino.forEach((row, i) => {
     row.forEach((value, j) => {
-      if (value == 1) {
-        list.push({x:i, y:j})
+      if (value === 1) {
+        places.push({x:i, y:j})
       }
     })
   })
-  return {pieceId, spinId, place: list, xLength: katamino.length, yLength: katamino[0].length}
+  return places
 }
 
 function uniqKatamino(kataminoSpinArray) {
-  let uniqKataminoSpinArray = []
-  kataminoSpinArray.forEach((spin) => {
-    if (!hasMember(uniqKataminoSpinArray, spin)) {
-      uniqKataminoSpinArray.push(spin)
-    }
-  })
-
-  return uniqKataminoSpinArray
-}
-
-function hasMember(uniqkataminoSpinArray, spin) {
-  return uniqkataminoSpinArray.some(kataminoSpin =>
-    JSON.stringify(kataminoSpin) === JSON.stringify(spin)
-  )
+  return kataminoSpinArray.filter((spin, index, array) => (
+      index === array.findIndex((spin2) => (
+        JSON.stringify(spin) === JSON.stringify(spin2)
+      ))
+  ))
 }
 
 function copyArrayOfArray(katamino) {
@@ -53,10 +43,9 @@ function copyArrayOfArray(katamino) {
 }
 
 function transpose(katamino) {
-  let transposed = []
-  for(let i=0; i < katamino[0].length; i++) {
-    transposed.push([])
-  }
+  // new array filled with "[]"
+  let transposed = new Array(katamino[0].length).fill().map(() => [])
+
   katamino.forEach((row, i) => {
     row.forEach((value, j) => {
       transposed[j][i] = value

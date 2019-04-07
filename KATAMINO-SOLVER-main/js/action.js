@@ -111,7 +111,7 @@ const action = {
         // New queue= [{1,2,3}, {1,2,3}]
         if ((lastPlacedPiece.length === placedPiece.length -1)
               && (last2PlacedPiece.length === placedPiece.length)
-              && (last2PlacedPiece[last2PlacedPiece.length -1].spin.pieceId === placedPiece[placedPiece.length -1].spin.pieceId)) {
+              && (last2PlacedPiece[last2PlacedPiece.length -1].pieceId === placedPiece[placedPiece.length -1].pieceId)) {
           state.displayQueue.pop()
         }
       }
