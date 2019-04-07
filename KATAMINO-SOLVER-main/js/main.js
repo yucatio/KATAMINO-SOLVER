@@ -4,7 +4,7 @@ $( function() {
   action.init()
 })
 
-$(window).on('load', function() {
+$(window).on('load', () => {
   initializer.setLayout()
 })
 
