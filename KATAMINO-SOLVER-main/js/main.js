@@ -1,9 +1,12 @@
 $( function() {
-  initializer.setLayout()
   initializer.setEvent()
 
   action.init()
-});
+})
+
+$(window).on('load', function() {
+  initializer.setLayout()
+})
 
 const initializer = {
   setLayout: () => {
