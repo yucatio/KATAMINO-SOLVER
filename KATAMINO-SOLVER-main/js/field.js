@@ -27,13 +27,12 @@ const field = {
       // not solved
       console.log("not solved")
       field.done = true
+      onNewPlace([])
       onNotSolved()
       return
     }
 
     const {pieceId, spinId, spin, kataminoField, minEmpty, unPlacedPiece, placedPiece} = field._solverStack.pop()
-
-    onNewPlace(placedPiece)
 
     // spin.place[0] always x=0, minumum y in x=0
     const offset = {x: minEmpty.x, y: minEmpty.y - spin[0].y}
@@ -52,18 +51,20 @@ const field = {
     const nextPlacedPiece = placedPiece.concat()
     nextPlacedPiece.push({offset, pieceId, spinId, spin})
 
+    onNewPlace(nextPlacedPiece)
+
     if (nextUnPlaced.length <= 0) {
       console.log("completed")
 
       field.done = true
-      onSolved(nextPlacedPiece)
+      onSolved()
       return
     }
+
     const nextEmpty = field.findNextEmpty(nextField, minEmpty)
 
     if (! field.hasFiveTimesCells(nextField, nextEmpty)) {
       // wrongly devided
-      onNewPlace(nextPlacedPiece)
       return
     }
 
