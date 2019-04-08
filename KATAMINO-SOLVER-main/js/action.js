@@ -102,6 +102,9 @@ const action = {
       if (previousPlaced.length < placedPiece.length) {
         break
       }
+      if(placedPiece.length <= 0 && previousPlaced.length === 1) {
+        break
+      }
       if (previousPlaced.length === placedPiece.length &&
           previousPlaced[previousPlaced.length - 1].pieceId === placedPiece[previousPlaced.length - 1].pieceId) {
         break
