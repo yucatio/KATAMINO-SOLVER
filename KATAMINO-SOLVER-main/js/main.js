@@ -1,66 +1,22 @@
-$( function() {
-  initializer.setEvent()
+function startSolve() {
+  console.log("startSolve")
 
-  action.init()
-})
+  const pieceInputs = document.getElementsByName("piece")
 
-$(window).on('load', () => {
-  initializer.setLayout()
-})
+  const targetPiece = Array.from(pieceInputs).filter(pieceElement =>
+    pieceElement.checked
+  ).map(pieceElement =>
+    parseInt(pieceElement.value, 10)
+  )
 
-const initializer = {
-  setLayout: () => {
-    $("#unused-piece-droppable").height($("#unused-piece-droppable").height())
-    $("#used-piece-droppable").height($("#used-piece-droppable").height())
-    $(".draggable-piece").each((index, piece) => {
-      $(piece).width($(piece).width())
-    })
-  },
+  console.log(targetPiece)
 
-  setEvent: () => {
-    $(".draggable-piece").draggable({
-      revert: "invalid"
-    })
+  if (targetPiece.length < 3) {
+    // TODO: Show error message
+    console.log("選択されたピースの個数が3未満")
+    return
+  }
 
-    $("#unused-piece-droppable").droppable({
-      hoverClass: "bg-light",
-      accept: ".draggable-piece",
-      drop : ((e, ui) => {
-        const pieceIdStr = ui.draggable.data("piece-id")
-        action.removeFromTargetPieceList(parseInt(pieceIdStr, 10))
-      })
-    })
-
-    $("#used-piece-droppable").droppable({
-      hoverClass: "hover",
-      accept: ".draggable-piece",
-      drop : ((e, ui) => {
-        const pieceIdStr = ui.draggable.data("piece-id")
-        action.addToTargetPieceList(parseInt(pieceIdStr, 10))
-      })
-    })
-
-    $("#start-button").on("click", () => {
-      action.startSolve()
-    })
-
-    $("#reset-button").on("click", () => {
-      action.newPieceSelection()
-    })
-
-    $("#pause-button").on("click", () => {
-      action.pause()
-    })
-
-    $("#resume-button").on("click", () => {
-      action.resume()
-    })
-
-    $('#speed-range').on("change", () => {
-      const speed = $('#speed-range').val()
-      action.changeSpeed(speed)
-    });
-
-  },
-
+  solver.init(targetPiece)
+  solver.solve()
 }

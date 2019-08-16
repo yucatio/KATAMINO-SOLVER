@@ -1,54 +1,20 @@
 const display = {
-  updateDraggablePiece: () => {
-    const element = $(".draggable-piece")
+  show : (kataminoField) => {
+    const table = document.createElement("table")
+    table.setAttribute("id","katamino-table")
 
-    element.draggable(state.solverState === "selectPiece" ? "enable" : "disable")
-    element.children("img").show()
-
-    state.fieldPieceList.forEach((place) => {
-      $("#piece_" + place.pieceId + ">img").hide()
+    kataminoField.forEach((fieldRow) => {
+      tableRow = table.insertRow(-1)
+      fieldRow.forEach((val) => {
+        cell = tableRow.insertCell(-1)
+        if (val >= 0) {
+          cell.classList.add('piece' + val)
+          cell.appendChild(document.createTextNode(val))
+        }
+      })
     })
-  },
 
-  updateButtons: () => {
-    $("#start-button").prop(
-      "disabled", state.solverState === "solving"
-    ).toggle(
-      (state.solverState === "selectPiece" && state.enableToStart)
-        || state.solverState === "solving"
-    )
-    $("#more-piece-button").toggle(state.solverState === "selectPiece" && ! state.enableToStart)
-    $("#reset-button").toggle(state.solverState === "solveEnd" || state.solverState === "pause")
-  },
-
-  updateFieldMask: () => {
-    $("#field-mask").css(
-      "left", config.offset.left + state.targetPieceList.length * config.cellSize
-    ).css(
-      "width", (12 - state.targetPieceList.length) * config.cellSize
-    )
-  },
-
-  updateFieldPiece : () => {
-    $(".katamino-piece").hide()
-
-    state.fieldPieceList.forEach((place) => {
-      $("#piece_" + place.pieceId + "_" + place.spinId
-      ).css("top", place.offset.x * config.cellSize + config.offset.top
-      ).css("left", place.offset.y * config.cellSize + config.offset.left
-      ).show()
-    })
-  },
-
-  updatePauseResumeButton: () => {
-    // enable only solving
-    $("#pause-button").prop("disabled", state.solverState !== "solving")
-    // enable only pause
-    $("#resume-button").prop("disabled", state.solverState !== "pause")
-  },
-
-  updateResultMessage: () => {
-    $("#solvedModal").modal(state.solverState === "solveEnd" && state.result === "solved" ? "show" : "hide")
-    $("#notSolvedModal").modal(state.solverState === "solveEnd" && state.result !== "solved" ? "show" : "hide")
+    const old = document.getElementById("katamino-table")
+    document.getElementById("katamino-field").replaceChild(table, old)
   },
 }
