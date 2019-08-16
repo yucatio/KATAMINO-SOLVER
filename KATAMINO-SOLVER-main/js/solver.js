@@ -1,15 +1,15 @@
 const solver = {
   solverStack : [],
 
-  init : (targetPiece) => {
+  init : (pieceList) => {
     const kataminoField = new Array(5).fill().map(() => (
-      new Array(targetPiece.length).fill(-1)
+      new Array(pieceList.length).fill(-1)
     ))
 
     const minEmpty = {x:0, y:0}
-    targetPiece.forEach((pieceId) => {
+    pieceList.forEach((pieceId) => {
       KATAMINO_ARR[pieceId].forEach((spin, spinId) => {
-        solver.solverStack.push({kataminoField, minEmpty, pieceId, spinId, spin, unPlacedPiece: targetPiece})
+        solver.solverStack.push({kataminoField, minEmpty, pieceId, spinId, spin, unPlacedPiece: pieceList})
       })
     })
   },
