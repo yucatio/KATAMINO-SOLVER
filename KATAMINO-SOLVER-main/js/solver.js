@@ -1,26 +1,41 @@
 const solver = {
   solverStack : [],
+  timer: null,
+  speed: config.defaultSpeed,
 
-  init : (pieceList) => {
+  init : (targetPieces) => {
     const kataminoField = new Array(5).fill().map(() => (
-      new Array(pieceList.length).fill(-1)
+      new Array(targetPieces.length).fill(-1)
     ))
 
+    solver.solverStack  = []
+    timer = null
+
     const minEmpty = {x:0, y:0}
-    pieceList.forEach((pieceId) => {
+    const placedPieces = []
+    targetPieces.forEach((pieceId) => {
+      solver.solverStack.push({kataminoField, minEmpty, pieceId, spinId:null, spin:null, unPlacedPieces: targetPieces, placedPieces})
       KATAMINO_ARR[pieceId].forEach((spin, spinId) => {
-        solver.solverStack.push({kataminoField, minEmpty, pieceId, spinId, spin, unPlacedPiece: pieceList})
+        solver.solverStack.push({kataminoField, minEmpty, pieceId, spinId, spin, unPlacedPieces: targetPieces, placedPieces})
       })
     })
   },
 
-  solve : () => {
+  solve : ({onUpdatePieces = (placedPieces)=>{}, onSolved = ()=>{}, onNotSolved} = ()=>{}) => {
     if (solver.solverStack.length <= 0) {
       console.log("解けなかった")
+      onNotSolved()
       return
     }
 
-    const {kataminoField, minEmpty, pieceId, spinId, spin, unPlacedPiece} = solver.solverStack.pop()
+    const {kataminoField, minEmpty, pieceId, spinId, spin, unPlacedPieces, placedPieces} = solver.solverStack.pop()
+
+    if (! spin) {
+      const timeout = state.placedPieces.length === placedPieces.length ? 0 : solver.speed
+      onUpdatePieces(placedPieces)
+      solver.timer = setTimeout(() => solver.solve({onUpdatePieces, onSolved, onNotSolved}), timeout)
+      return
+    }
 
     console.log("pieceId", pieceId)
     console.log("spinId", spinId)
@@ -30,7 +45,7 @@ const solver = {
     if (! solver.isAllEmpty(kataminoField, spin, offset)) {
       // フィールドの外か、すでにピースが置かれている
       console.log("フィールドの外か、すでにピースが置かれている")
-      setTimeout(solver.solve, 0)
+      solver.timer = setTimeout(() => solver.solve({onUpdatePieces, onSolved, onNotSolved}), 0)
       return
     }
 
@@ -40,13 +55,16 @@ const solver = {
     solver.placeSpin(nextField, spin, offset, pieceId)
     console.log("nextField", nextField)
 
-    const nextUnPlaced = unPlacedPiece.filter(id => id !== pieceId)
+    const nextUnPlaced = unPlacedPieces.filter(id => id !== pieceId)
     console.log("nextUnPlaced", nextUnPlaced)
 
-    display.show(nextField)
+    const nextPlacedPieces = [...placedPieces, {pieceId, spinId, spin, offset}]
+
+    onUpdatePieces(nextPlacedPieces)
 
     if (nextUnPlaced.length <= 0) {
       console.log("完成")
+      onSolved()
       return
     }
 
@@ -55,17 +73,22 @@ const solver = {
 
     if (! solver.hasAllFiveTimesCells(nextField, nextEmpty)){
       console.log("フィールドが5の倍数以外で分断されている")
-      setTimeout(solver.solve, 300)
+      solver.timer = setTimeout(() => solver.solve({onUpdatePieces, onSolved, onNotSolved}), solver.speed)
       return
     }
 
     nextUnPlaced.forEach((nextPieceId) => {
+      solver.solverStack.push({kataminoField: nextField, minEmpty: nextEmpty, pieceId:nextPieceId, spinId:null, spin: null, unPlacedPieces: nextUnPlaced, placedPieces: nextPlacedPieces})
       KATAMINO_ARR[nextPieceId].forEach((nextSpin, nextSpinId) => {
-        solver.solverStack.push({kataminoField: nextField, minEmpty: nextEmpty, pieceId:nextPieceId, spinId:nextSpinId, spin: nextSpin, unPlacedPiece: nextUnPlaced,})
+        solver.solverStack.push({kataminoField: nextField, minEmpty: nextEmpty, pieceId:nextPieceId, spinId:nextSpinId, spin: nextSpin, unPlacedPieces: nextUnPlaced, placedPieces: nextPlacedPieces})
       })
     })
 
-    setTimeout(solver.solve, 300)
+    solver.timer = setTimeout(() => solver.solve({onUpdatePieces, onSolved, onNotSolved}), solver.speed)
+  },
+
+  stop: () => {
+    clearTimeout(solver.timer)
   },
 
   isAllEmpty: (kataminoField, places, offset) => {
@@ -144,4 +167,8 @@ const solver = {
 
      return count%5 === 0
    },
+
+   setSpeed: (speed) => {
+     solver.speed = speed
+   }
 }
