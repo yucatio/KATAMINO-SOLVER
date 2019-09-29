@@ -25,7 +25,7 @@ const initializer = {
       drop : ((e, ui) => {
         const pieceId = ui.draggable.data("piece-id")
         action.removeFromTargetPieces(parseInt(pieceId, 10))
-      })
+      }),
     })
 
     $("#used-piece-droppable").droppable({
@@ -34,7 +34,7 @@ const initializer = {
       drop : ((e, ui) => {
         const pieceId = ui.draggable.data("piece-id")
         action.addToTargetPieces(parseInt(pieceId, 10))
-      })
+      }),
     })
 
     $("#start-button").on("click", () => {

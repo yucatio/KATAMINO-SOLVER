@@ -1,7 +1,7 @@
 const solver = {
   solverStack : [],
   timer: null,
-  speed: config.defaultSpeed,
+  speed: config.speedList[config.defaultSpeedLevel],
 
   init : (targetPieces) => {
     const kataminoField = new Array(5).fill().map(() => (
@@ -21,7 +21,9 @@ const solver = {
     })
   },
 
-  solve : ({onUpdatePieces = (placedPieces)=>{}, onSolved = ()=>{}, onNotSolved} = ()=>{}) => {
+  solve : (options) => {
+    const {onUpdatePieces = (placedPieces)=>{}, onSolved = ()=>{}, onNotSolved = ()=>{}} = options
+
     if (solver.solverStack.length <= 0) {
       console.log("解けなかった")
       onNotSolved()
@@ -33,7 +35,7 @@ const solver = {
     if (! spin) {
       const timeout = state.placedPieces.length === placedPieces.length ? 0 : solver.speed
       onUpdatePieces(placedPieces)
-      solver.timer = setTimeout(() => solver.solve({onUpdatePieces, onSolved, onNotSolved}), timeout)
+      solver.timer = setTimeout(() => solver.solve(options), timeout)
       return
     }
 
@@ -45,7 +47,7 @@ const solver = {
     if (! solver.isAllEmpty(kataminoField, spin, offset)) {
       // フィールドの外か、すでにピースが置かれている
       console.log("フィールドの外か、すでにピースが置かれている")
-      solver.timer = setTimeout(() => solver.solve({onUpdatePieces, onSolved, onNotSolved}), 0)
+      solver.timer = setTimeout(() => solver.solve(options), 0)
       return
     }
 
@@ -58,7 +60,8 @@ const solver = {
     const nextUnPlaced = unPlacedPieces.filter(id => id !== pieceId)
     console.log("nextUnPlaced", nextUnPlaced)
 
-    const nextPlacedPieces = [...placedPieces, {pieceId, spinId, spin, offset}]
+    const nextPlacedPieces = [...placedPieces, {pieceId, spinId, offset}]
+    console.log("nextPlacedPieces", nextPlacedPieces)
 
     onUpdatePieces(nextPlacedPieces)
 
@@ -73,7 +76,7 @@ const solver = {
 
     if (! solver.hasAllFiveTimesCells(nextField, nextEmpty)){
       console.log("フィールドが5の倍数以外で分断されている")
-      solver.timer = setTimeout(() => solver.solve({onUpdatePieces, onSolved, onNotSolved}), solver.speed)
+      solver.timer = setTimeout(() => solver.solve(options), solver.speed)
       return
     }
 
@@ -84,7 +87,7 @@ const solver = {
       })
     })
 
-    solver.timer = setTimeout(() => solver.solve({onUpdatePieces, onSolved, onNotSolved}), solver.speed)
+    solver.timer = setTimeout(() => solver.solve(options), solver.speed)
   },
 
   stop: () => {
@@ -170,5 +173,5 @@ const solver = {
 
    setSpeed: (speed) => {
      solver.speed = speed
-   }
+   },
 }

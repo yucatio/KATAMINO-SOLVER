@@ -43,7 +43,7 @@ const action = {
     solver.solve({
       onUpdatePieces: (placedPieces) => stateManager.setPlacedPieces(placedPieces),
       onSolved: () => stateManager.setSolverState("solvedSuccess"),
-      onNotSolved: () => stateManager.setSolverState("solvedFailed")
+      onNotSolved: () => stateManager.setSolverState("solvedFailed"),
     })
   },
 }

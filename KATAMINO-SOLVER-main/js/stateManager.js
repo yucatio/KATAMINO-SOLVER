@@ -2,24 +2,23 @@ const stateManager = {
   setSolverState: (solverState) => {
     state.solverState = solverState
 
-    display.updateDraggablePiece()
-    display.updateStartButtons()
-    display.updateFieldPiece()
-    display.updatePauseResumeButton()
-    display.updateResultMessage()
+    display.updateDraggablePieces(state)
+    display.updateStartButtons(state)
+    display.updatePauseResumeButton(state)
+    display.updateResultMessage(state)
   },
 
   setTargetPieces: (targetPieces) => {
     state.targetPieces = targetPieces
 
-    display.updateStartButtons()
-    display.updateFieldMask()
+    display.updateStartButtons(state)
+    display.updateFieldMask(state)
   },
 
   setPlacedPieces: (placedPieces) => {
     state.placedPieces = placedPieces
 
-    display.updateDraggablePiece()
-    display.updateFieldPiece()
+    display.updateDraggablePieces(state)
+    display.updateFieldPieces(state)
   },
 }

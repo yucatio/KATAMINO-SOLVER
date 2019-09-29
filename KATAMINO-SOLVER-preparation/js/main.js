@@ -35,7 +35,7 @@ function createKataminoSpinList(piece) {
 }
 
 function copyArrayOfArray(arrayOfArray) {
-  return arrayOfArray.map(arr => arr.concat())
+  return arrayOfArray.map(array => ([...array]))
 }
 
 /*

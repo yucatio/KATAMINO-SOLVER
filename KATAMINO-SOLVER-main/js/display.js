@@ -1,51 +1,50 @@
 const display = {
-  updateDraggablePiece: () => {
-    const element = $(".draggable-piece")
+  updateDraggablePieces: ({solverState, placedPieces}) => {
+    $(".draggable-piece").draggable(solverState === "selectPiece" ? "enable" : "disable")
 
-    element.draggable(state.solverState === "selectPiece" ? "enable" : "disable")
-
-    element.children("img").show()
-    state.placedPieces.forEach((place) => {
+    $(".draggable-piece").children("img").show()
+    placedPieces.forEach((place) => {
       $("#piece_" + place.pieceId + ">img").hide()
     })
   },
 
-  updateStartButtons: () => {
+  updateStartButtons: ({solverState, targetPieces}) => {
     $("#start-button").prop(
-      "disabled", state.solverState !== "selectPiece"
+      "disabled", solverState === "solving"
     ).toggle(
-      (state.solverState === "selectPiece" || state.solverState === "solving")
-      && state.targetPieces.length >= 3
+      (solverState === "selectPiece" && targetPieces.length >= 3) || solverState === "solving"
     )
-    $("#more-piece-button").toggle(state.targetPieces.length < 3)
-    $("#reset-button").toggle(state.solverState === "solvedSuccess" || state.solverState === "solvedFailed" || state.solverState === "pause")
+    $("#more-piece-button").toggle(targetPieces.length < 3)
+    $("#reset-button").toggle(
+      solverState === "solvedSuccess" || solverState === "solvedFailed" || solverState === "pause"
+    )
   },
 
-  updateFieldMask: () => {
+  updateFieldMask: ({targetPieces}) => {
     $("#field-mask").css(
-      "left", config.offset.left + state.targetPieces.length * config.cellSize
+      "left", targetPieces.length * config.cellSize + config.fieldOffset.left
     ).css(
-      "width", (12 - state.targetPieces.length) * config.cellSize
+      "width", (12 - targetPieces.length) * config.cellSize
     )
   },
 
-  updateFieldPiece : () => {
+  updateFieldPieces: ({placedPieces}) => {
     $(".katamino-piece").hide()
-    state.placedPieces.forEach((place) => {
-      $("#piece_" + place.pieceId + "_" + place.spinId
-      ).css("top", place.offset.x * config.cellSize + config.offset.top
-      ).css("left", place.offset.y * config.cellSize + config.offset.left
+    placedPieces.forEach((piece) => {
+      $("#piece_" + piece.pieceId + "_" + piece.spinId
+      ).css("top", piece.offset.x * config.cellSize + config.fieldOffset.top
+      ).css("left", piece.offset.y * config.cellSize + config.fieldOffset.left
       ).show()
     })
   },
 
-  updatePauseResumeButton: () => {
-    $("#pause-button").prop("disabled", state.solverState !== "solving")
-    $("#resume-button").prop("disabled", state.solverState !== "pause")
+  updatePauseResumeButton: ({solverState}) => {
+    $("#pause-button").prop("disabled", solverState !== "solving")
+    $("#resume-button").prop("disabled", solverState !== "pause")
   },
 
-  updateResultMessage: () => {
-    $("#solved-modal").modal(state.solverState === "solvedSuccess" ? "show" : "hide")
-    $("#not-solved-modal").modal(state.solverState === "solvedFailed" ? "show" : "hide")
+  updateResultMessage: ({solverState}) => {
+    $("#solved-modal").modal(solverState === "solvedSuccess" ? "show" : "hide")
+    $("#not-solved-modal").modal(solverState === "solvedFailed" ? "show" : "hide")
   },
 }
