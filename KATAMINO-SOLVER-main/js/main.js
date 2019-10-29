@@ -19,6 +19,7 @@ const initializer = {
     $(".draggable-piece").draggable({
       revert: "invalid"
     })
+
     $("#unused-piece-droppable").droppable({
       hoverClass: "bg-light",
       accept: ".draggable-piece",

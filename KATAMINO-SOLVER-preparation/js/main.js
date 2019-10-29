@@ -2,33 +2,30 @@ const KATAMINO_ARRAY = KATAMINO_ORG_ARRAY.map(piece => createKataminoSpinList(pi
 
 document.write("const KATAMINO_ARR = " + JSON.stringify(KATAMINO_ARRAY))
 
-/*
- * 各ピースを回転・反転した時のピースの場所のリストを作成する
+/**
+ * Creates list of transposed and reversed pieces
  */
 function createKataminoSpinList(piece) {
-  // 回転した形を格納する配列
-  let spinArray = []
+  const spinArray = []
 
   spinArray[0] = copyArrayOfArray(piece)
-  // 0番を転置したものが7番
+  // Transposing 0th makes 7th
   spinArray[7] = transpose(spinArray[0])
-  // 7番をコピーして上下反転したものが1番
+  // Copying and reversing 7th makes 1stS
   spinArray[1] = copyArrayOfArray(spinArray[7]).reverse()
-  // 1番を転置したものが6番
+  // Transposing 1st makes 6th
   spinArray[6] = transpose(spinArray[1])
-  // 6番をコピーして上下反転したものが2番
+  // Copying and reversing 6th makes 2nd
   spinArray[2] = copyArrayOfArray(spinArray[6]).reverse()
-  // 2番を転置したものが5番
+  // Transposing 2nd makes 5th
   spinArray[5] = transpose(spinArray[2])
-  // 5番をコピーして上下反転したものが3番
+  // Copying and reversing 5th makes 3rd
   spinArray[3] = copyArrayOfArray(spinArray[5]).reverse()
-  // 3番を転置したものが4番
+  // Transposing 3rd makes 4th
   spinArray[4] = transpose(spinArray[3])
 
-  // スピンの重複を取り除く
   const uniqSpinArr = uniqSpin(spinArray)
 
-  // 各スピンをリストの形式に変換する
   const spinLists = uniqSpinArr.map((uniqSpin) => matrixToList(uniqSpin))
 
   return spinLists
@@ -39,13 +36,12 @@ function copyArrayOfArray(arrayOfArray) {
 }
 
 /*
-* 2次元配列の転置をする
+* Transpoose array of array
 */
 function transpose(spin) {
-  // 転置した配列
   let transposed = spin[0].map(() => [])
 
-  // 1番目のインデックスと2番目のインデックスを入れ替える
+  // Exchange 1st index and 2nd index
   spin.forEach((row, i) => {
     row.forEach((value, j) => {
       transposed[j][i] = value
@@ -64,12 +60,11 @@ function uniqSpin(spinArray) {
 }
 
 function matrixToList(spin) {
-  // 変換後の値を格納する配列
+  // For store transformed value
   const places = []
   spin.forEach((row, i) => {
     row.forEach((value, j) => {
       if (value === 1) {
-        // 値が1だったら場所を変換後の配列に追加する
         places.push({x:i, y:j})
       }
     })

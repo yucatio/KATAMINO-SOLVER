@@ -25,7 +25,7 @@ const solver = {
     const {onUpdatePieces = (placedPieces)=>{}, onSolved = ()=>{}, onNotSolved = ()=>{}} = options
 
     if (solver.solverStack.length <= 0) {
-      console.log("解けなかった")
+      // Not solved
       onNotSolved()
       return
     }
@@ -39,43 +39,32 @@ const solver = {
       return
     }
 
-    console.log("pieceId", pieceId)
-    console.log("spinId", spinId)
-
+    // spin[0] always x=0
     const offset = {x: minEmpty.x, y: minEmpty.y - spin[0].y}
 
     if (! solver.isAllEmpty(kataminoField, spin, offset)) {
-      // フィールドの外か、すでにピースが置かれている
-      console.log("フィールドの外か、すでにピースが置かれている")
+      // Out of field or another piece already there
       solver.timer = setTimeout(() => solver.solve(options), 0)
       return
     }
 
-    console.log("ピースが置ける")
-
     const nextField = util.copyArrayOfArray(kataminoField)
     solver.placeSpin(nextField, spin, offset, pieceId)
-    console.log("nextField", nextField)
 
     const nextUnPlaced = unPlacedPieces.filter(id => id !== pieceId)
-    console.log("nextUnPlaced", nextUnPlaced)
 
     const nextPlacedPieces = [...placedPieces, {pieceId, spinId, offset}]
-    console.log("nextPlacedPieces", nextPlacedPieces)
 
     onUpdatePieces(nextPlacedPieces)
 
     if (nextUnPlaced.length <= 0) {
-      console.log("完成")
       onSolved()
       return
     }
 
     const nextEmpty = solver.findNextEmpty(nextField, minEmpty)
-    console.log("nextEmpty", nextEmpty)
 
     if (! solver.hasAllFiveTimesCells(nextField, nextEmpty)){
-      console.log("フィールドが5の倍数以外で分断されている")
       solver.timer = setTimeout(() => solver.solve(options), solver.speed)
       return
     }
@@ -119,7 +108,7 @@ const solver = {
       row.some((val) => val < 0)
     )
     if (minEmptyX < 0) {
-      // 空白マスが見つからなかった
+      // No empty cells found
       return undefined
     }
     const x = previousEmpty.x + minEmptyX
@@ -130,7 +119,7 @@ const solver = {
   },
 
   /**
-   * 全ての連続した空白マスの数が5の倍数か判定します
+   * Returns all empty cell cluster has 5-time cells
    */
    hasAllFiveTimesCells: (kataminoField, minEmpty) => {
      const kataminoFieldCopy = util.copyArrayOfArray(kataminoField)
@@ -146,7 +135,7 @@ const solver = {
    },
 
   /**
-   * emptyPlaceを含む連続した空白マスの個数が5の倍数か判定します
+   * Returns the empty cell cluster including emptyCluster has 5-times cells
    */
    hasFiveTimesCells: (kataminoField, emptyPlace) => {
      const queue = [emptyPlace]

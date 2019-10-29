@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -28,8 +28,7 @@
 
     <div class="container">
       <div class="alert alert-warning text-center my-4">
-        Drag and drop pieces to use to the lower panel.
-        Then hit START button.
+        つかうピースを ドラッグアンドドロップで　したのわくに　いれてから　スタートボタンをおしてね
       </div>
       <div id="unused-piece" class="card text-center my-2">
         <div id="unused-piece-droppable" class="card-body">
@@ -77,13 +76,13 @@
           </span>
         </div>
         <div class="card-footer">
-          PIECE TO USE
+          つかうピース
         </div>
       </div><!-- end of card for used-piece -->
 
-      <button type="button" id="start-button" class="btn btn-warning btn-lg btn-block my-3">START</button>
-      <button type="button" id="more-piece-button" class="btn btn-warning btn-lg btn-block my-3" disabled>ADD MORE PIECE</button>
-      <button type="button" id="reset-button" class="btn btn-danger btn-lg btn-block my-3">TRY ANOTHER COMBINATION</button>
+      <button type="button" id="start-button" class="btn btn-warning btn-lg btn-block my-3">スタート</button>
+      <button type="button" id="more-piece-button" class="btn btn-warning btn-lg btn-block my-3" disabled>つかうピースをもっとおいてください</button>
+      <button type="button" id="reset-button" class="btn btn-danger btn-lg btn-block my-3">ピースをえらびなおす</button>
 
       <div class="card my-2">
         <div class="card-body">
@@ -169,11 +168,11 @@
         </div><!-- end of card-body for katamino-field -->
         <div class="card-footer d-flex">
           <div class="flex-grow-1">
-            <button id="pause-button" type="button" class="btn btn-outline-secondary" disabled>PAUSE</button>
-            <button id="resume-button" type="button" class="btn btn-outline-secondary" disabled>RESUME</button>
+            <button id="pause-button" type="button" class="btn btn-outline-secondary" disabled>いちじていし</button>
+            <button id="resume-button" type="button" class="btn btn-outline-secondary" disabled>さいかい</button>
           </div>
           <div class="align-self-center">
-            <label class="text-secondary">Speed: Fast <input id="speed-range" type="range" name="speed" min="0" max="4" value="3"> Slow</label>
+            <label class="text-secondary">はやさ: はやい <input id="speed-range" type="range" name="speed" min="0" max="4" value="3"> おそい</label>
           </div>
         </div><!-- end of card-footer for katamino-field -->
       </div><!-- end of card for katamino-field -->
@@ -183,16 +182,16 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header bg-warning">
-            <h5 class="modal-title">I did it.</h5>
+            <h5 class="modal-title">できたよ</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <p>Check the answer</p>
+            <p>こたえをみてみよう</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">とじる</button>
           </div>
         </div>
       </div>
@@ -202,16 +201,16 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header text-white bg-secondary">
-            <h5 class="modal-title">No solution for this combination.</h5>
+            <h5 class="modal-title">この くみあわせでは できないみたい</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <p>Try another combination.</p>
+            <p>ほかの くみあわせで ためしてみてね</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">とじる</button>
           </div>
         </div>
       </div>
