@@ -1,26 +1,68 @@
-const KATAMINO_ARRAY = KATAMINO_ORG_ARRAY.map((piece, pieceId) => createKataminoSpinList(piece, pieceId))
+const KATAMINO_ARRAY = KATAMINO_ORG_ARRAY.map(piece => createKataminoSpinList(piece))
 
 document.write("const KATAMINO_ARR = " + JSON.stringify(KATAMINO_ARRAY))
 
-function createKataminoSpinList(piece, pieceId) {
-  let kataminoSpinArray = []
-  kataminoSpinArray[0] = copyArrayOfArray(piece)
-  kataminoSpinArray[7] = transpose(copyArrayOfArray(kataminoSpinArray[0]))
-  kataminoSpinArray[1] = copyArrayOfArray(kataminoSpinArray[7]).reverse()
-  kataminoSpinArray[6] = transpose(copyArrayOfArray(kataminoSpinArray[1]))
-  kataminoSpinArray[2] = copyArrayOfArray(kataminoSpinArray[6]).reverse()
-  kataminoSpinArray[5] = transpose(copyArrayOfArray(kataminoSpinArray[2]))
-  kataminoSpinArray[3] = copyArrayOfArray(kataminoSpinArray[5]).reverse()
-  kataminoSpinArray[4] = transpose(copyArrayOfArray(kataminoSpinArray[3]))
+/**
+ * Creates list of transposed and reversed pieces
+ */
+function createKataminoSpinList(piece) {
+  const spinArray = []
 
-  const uniqSpinArr = uniqKatamino(kataminoSpinArray)
+  spinArray[0] = copyArrayOfArray(piece)
+  // Transposing 0th makes 7th
+  spinArray[7] = transpose(spinArray[0])
+  // Copying and reversing 7th makes 1stS
+  spinArray[1] = copyArrayOfArray(spinArray[7]).reverse()
+  // Transposing 1st makes 6th
+  spinArray[6] = transpose(spinArray[1])
+  // Copying and reversing 6th makes 2nd
+  spinArray[2] = copyArrayOfArray(spinArray[6]).reverse()
+  // Transposing 2nd makes 5th
+  spinArray[5] = transpose(spinArray[2])
+  // Copying and reversing 5th makes 3rd
+  spinArray[3] = copyArrayOfArray(spinArray[5]).reverse()
+  // Transposing 3rd makes 4th
+  spinArray[4] = transpose(spinArray[3])
 
-  return uniqSpinArr.map((uniqSpin, spinId) => matrixToList(uniqSpin))
+  const uniqSpinArr = uniqSpin(spinArray)
+
+  const spinLists = uniqSpinArr.map((uniqSpin) => matrixToList(uniqSpin))
+
+  return spinLists
 }
 
-function matrixToList(katamino) {
-  let places = []
-  katamino.forEach((row, i) => {
+function copyArrayOfArray(arrayOfArray) {
+  return arrayOfArray.map(array => ([...array]))
+}
+
+/*
+* Transpoose array of array
+*/
+function transpose(spin) {
+  let transposed = spin[0].map(() => [])
+
+  // Exchange 1st index and 2nd index
+  spin.forEach((row, i) => {
+    row.forEach((value, j) => {
+      transposed[j][i] = value
+    })
+  })
+
+  return transposed
+}
+
+function uniqSpin(spinArray) {
+  return spinArray.filter((spin, index, array) => (
+      index === array.findIndex((spinAnother) => (
+        JSON.stringify(spin) === JSON.stringify(spinAnother)
+      ))
+  ))
+}
+
+function matrixToList(spin) {
+  // For store transformed value
+  const places = []
+  spin.forEach((row, i) => {
     row.forEach((value, j) => {
       if (value === 1) {
         places.push({x:i, y:j})
@@ -28,29 +70,4 @@ function matrixToList(katamino) {
     })
   })
   return places
-}
-
-function uniqKatamino(kataminoSpinArray) {
-  return kataminoSpinArray.filter((spin, index, array) => (
-      index === array.findIndex((spin2) => (
-        JSON.stringify(spin) === JSON.stringify(spin2)
-      ))
-  ))
-}
-
-function copyArrayOfArray(katamino) {
-  return katamino.map(value => value.concat())
-}
-
-function transpose(katamino) {
-  // new array filled with "[]"
-  let transposed = new Array(katamino[0].length).fill().map(() => [])
-
-  katamino.forEach((row, i) => {
-    row.forEach((value, j) => {
-      transposed[j][i] = value
-    })
-  })
-
-  return transposed
 }

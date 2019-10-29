@@ -55,31 +55,32 @@
             <img src="img/piece/piece_11_0.png" width="75px" />
           </span>
         </div>
-      </div>
+      </div><!-- end of card for unused-piece -->
       <div class="arrow-down mx-auto">
       </div>
       <div id="used-piece" class="card text-center border-warning my-2">
         <div id="used-piece-droppable" class="card-body">
-          <div id="piece_1" class="draggable-piece m-2 p-0" data-piece-id="1">
+          <span id="piece_1" class="draggable-piece m-2 p-0" data-piece-id="1">
             <img src="img/piece/piece_1_5.png" width="50px" />
-          </div>
-          <div id="piece_2" class="draggable-piece m-2 p-0" data-piece-id="2">
+          </span>
+          <span id="piece_2" class="draggable-piece m-2 p-0" data-piece-id="2">
             <img src="img/piece/piece_2_5.png" width="50px" />
-          </div>
-          <div id="piece_9" class="draggable-piece m-2 p-0" data-piece-id="9">
+          </span>
+          <span id="piece_9" class="draggable-piece m-2 p-0" data-piece-id="9">
             <img src="img/piece/piece_9_0.png" width="75px" />
-          </div>
-          <div id="piece_5" class="draggable-piece m-2 p-0" data-piece-id="5">
+          </span>
+          <span id="piece_5" class="draggable-piece m-2 p-0" data-piece-id="5">
             <img src="img/piece/piece_5_3.png" width="50px" />
-          </div>
-          <div id="piece_10" class="draggable-piece m-2 p-0" data-piece-id="10">
+          </span>
+          <span id="piece_10" class="draggable-piece m-2 p-0" data-piece-id="10">
             <img src="img/piece/piece_10_0.png" width="75px" />
-          </div>
+          </span>
         </div>
         <div class="card-footer">
           PIECE TO USE
         </div>
-      </div>
+      </div><!-- end of card for used-piece -->
+
       <button type="button" id="start-button" class="btn btn-warning btn-lg btn-block my-3">START</button>
       <button type="button" id="more-piece-button" class="btn btn-warning btn-lg btn-block my-3" disabled>ADD MORE PIECE</button>
       <button type="button" id="reset-button" class="btn btn-danger btn-lg btn-block my-3">TRY ANOTHER COMBINATION</button>
@@ -89,6 +90,7 @@
           <div id="katamino-field" class="mx-auto p-0">
             <img src="img/field/field.jpg" width="352" height="177"/>
             <div id="field-mask"></div>
+
             <img id="piece_0_0" class="katamino-piece" src="img/piece/piece_0_0.png" width="125px" />
             <img id="piece_0_1" class="katamino-piece" src="img/piece/piece_0_1.png" width="25px" />
 
@@ -163,24 +165,21 @@
             <img id="piece_10_3" class="katamino-piece" src="img/piece/piece_10_3.png" width="75px" />
 
             <img id="piece_11_0" class="katamino-piece" src="img/piece/piece_11_0.png" width="75px" />
-          </div>
-        </div>
+          </div><!-- end of katamino-field -->
+        </div><!-- end of card-body for katamino-field -->
         <div class="card-footer d-flex">
           <div class="flex-grow-1">
             <button id="pause-button" type="button" class="btn btn-outline-secondary" disabled>PAUSE</button>
             <button id="resume-button" type="button" class="btn btn-outline-secondary" disabled>RESUME</button>
           </div>
           <div class="align-self-center">
-            <label class="text-secondary">Speed: Fast <input id="speed-range" type="range" name="speed" form="dummy-form" min="0" max="4" value="3"> Slow</label>
+            <label class="text-secondary">Speed: Fast <input id="speed-range" type="range" name="speed" min="0" max="4" value="3"> Slow</label>
           </div>
-        </div>
-      </div>
-    </div>
+        </div><!-- end of card-footer for katamino-field -->
+      </div><!-- end of card for katamino-field -->
+    </div><!-- end of container -->
 
-    <form id="dummy-form" name="dummy" onsubmit="return false;">
-    </form>
-
-    <div id="solvedModal" class="modal" tabindex="-1" role="dialog">
+    <div id="solved-modal" class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header bg-warning">
@@ -199,7 +198,7 @@
       </div>
     </div>
 
-    <div id="notSolvedModal" class="modal" tabindex="-1" role="dialog">
+    <div id="not-solved-modal" class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header text-white bg-secondary">
@@ -238,13 +237,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <script src="js/util.js"></script>
     <script src="js/config.js"></script>
+    <script src="js/util.js"></script>
     <script src="js/state.js"></script>
     <script src="js/display.js"></script>
-    <script src="js/displayManager.js"></script>
+    <script src="js/stateManager.js"></script>
     <script src="js/katamino-arr.js"></script>
-    <script src="js/field.js"></script>
+    <script src="js/solver.js"></script>
     <script src="js/action.js"></script>
     <script src="js/main.js"></script>
   </body>
